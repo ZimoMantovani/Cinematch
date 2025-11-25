@@ -1,0 +1,84 @@
+/* Paleta de Cores:
+Fundo Principal: Verde-escuro (#4a7c59 ou similar)
+Header/Footer: Verde-claro (#c8e6c9 ou similar)
+Cartões/Botões/Texto: Creme/Off-white (#f5f5dc ou similar)
+Fontes: Monoespaçada (VT323, Courier New, Roboto Mono)
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'VT323', monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #4a7c59; /* Verde-escuro */
+  color: #f5f5dc; /* Creme/Off-white */
+  min-height: 100vh;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Estilos de Componentes Comuns */
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.card {
+  background-color: rgba(200, 230, 201, 0.1); /* Verde-claro transparente */
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+}
+
+.button {
+  background-color: #c8e6c9; /* Verde-claro */
+  color: #4a7c59; /* Verde-escuro */
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'VT323', monospace;
+  font-size: 1.2em;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: #a5d6a7;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #c8e6c9;
+  border-radius: 5px;
+  box-sizing: border-box;
+  background-color: #f5f5dc;
+  color: #4a7c59;
+  font-family: 'VT323', monospace;
+  font-size: 1em;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .container {
+    padding: 10px;
+  }
+  .card {
+    padding: 15px;
+  }
+  .button {
+    width: 100%;
+    margin: 5px 0;
+  }
+}

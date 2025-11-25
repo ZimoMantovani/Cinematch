@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Cinematch.Api": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "GOOGLE_APPLICATION_CREDENTIALS": "C:\\Users\\symon\\AppData\\Roaming\\gcloud\\application_default_credentials.json"
+      },
+      "applicationUrl": "https://localhost:61582;http://localhost:61587"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+# --- FRONTEND (React/Vite) ---
+node_modules/
+dist/
+dist-ssr/
+*.local
+.env
+
+# --- BACKEND (C# .NET) ---
+bin/
+obj/
+.vs/
+*.user
+*.pdb
+
+# --- BANCO DE DADOS & SEGURANÇA ---
+*.db
+*.sqlite
+appsettings.Development.json
