@@ -4,25 +4,30 @@ using System.Linq;
 
 namespace Cinematch.Api.Services
 {
+    // Esta classe encapsula a "Regra de Negócio" do Quiz.
+    // O Controller não precisa saber COMO a pontuação é calculada, apenas pede o resultado.
     public class QuizLogicService
     {
-        // Mapeamento de Respostas para Pontuações de Gênero
-        // Chave: "QxOy" onde x é o número da pergunta e y é a opção (A, B, C, D)
+        // ESTRUTURA DE PONTUAÇÃO (Weighted Scoring System)
+        // Mapeamos cada resposta possível para um peso em determinados gêneros.
+        // Exemplo: Escolher "Ação" na pergunta 1 dá +2 pontos para o gênero "Ação".
         private readonly Dictionary<string, Dictionary<string, int>> _scoreMap = new Dictionary<string, Dictionary<string, int>>
         {
             // Pergunta 1: Como você está se sentindo agora?
-            { "Q1A", new Dictionary<string, int> { { "Ação", 2 }, { "Aventura", 1 } } }, // Animado e cheio de energia
-            { "Q1B", new Dictionary<string, int> { { "Comédia", 3 } } }, // Querendo rir um pouco
-            { "Q1C", new Dictionary<string, int> { { "Drama", 2 }, { "Romance", 1 } } }, // Reflexivo e pensativo
-            { "Q1D", new Dictionary<string, int> { { "Ficção Científica", 1 }, { "Fantasia", 2 } } }, // Curioso e imaginativo
+            { "Q1A", new Dictionary<string, int> { { "Ação", 2 }, { "Aventura", 1 } } },
+            { "Q1B", new Dictionary<string, int> { { "Comédia", 3 } } },
+            { "Q1C", new Dictionary<string, int> { { "Drama", 2 }, { "Romance", 1 } } },
+            { "Q1D", new Dictionary<string, int> { { "Ficção Científica", 1 }, { "Fantasia", 2 } } }, 
 
-            // Pergunta 2: Com quem você assistiria ao filme?
-            { "Q2A", new Dictionary<string, int> { { "Romance", 3 }, { "Comédia", 1 } } }, // Com meu par romântico
+            // ... (Outras perguntas mapeadas da mesma forma) ...
+            // Omitido aqui para brevidade, mas a lógica segue o padrão: Resposta -> Gêneros -> Pontos
+             { "Q2A", new Dictionary<string, int> { { "Romance", 3 }, { "Comédia", 1 } } }, // Com meu par romântico
             { "Q2B", new Dictionary<string, int> { { "Ação", 2 }, { "Aventura", 2 } } }, // Com um grupo de amigos
             { "Q2C", new Dictionary<string, int> { { "Terror", 3 }, { "Drama", 1 } } }, // Sozinho, no escuro
             { "Q2D", new Dictionary<string, int> { { "Ficção Científica", 2 }, { "Fantasia", 2 } } }, // Com a família
-
-            // Pergunta 3: Qual o seu tipo de cenário favorito?
+            
+            // ... (Repete para Q3, Q4, Q5, Q6)
+             // Pergunta 3: Qual o seu tipo de cenário favorito?
             { "Q3A", new Dictionary<string, int> { { "Ação", 2 }, { "Ficção Científica", 2 } } }, // Cidades futuristas ou espaço
             { "Q3B", new Dictionary<string, int> { { "Aventura", 3 }, { "Fantasia", 1 } } }, // Florestas densas ou ruínas antigas
             { "Q3C", new Dictionary<string, int> { { "Drama", 2 }, { "Romance", 2 } } }, // Uma cidade pequena e aconchegante
@@ -47,14 +52,19 @@ namespace Cinematch.Api.Services
             { "Q6D", new Dictionary<string, int> { { "Terror", 2 }, { "Ficção Científica", 2 } } } // Imprevisível, com reviravoltas e sustos
         };
 
+        // ALGORITMO DE PROCESSAMENTO
+        // Recebe o array de respostas do usuário (ex: ["Q1A", "Q2C"...])
         public QuizResult ProcessAnswers(string[] answers)
         {
             var genreScores = new Dictionary<string, int>();
 
+            // 1. Itera sobre cada resposta dada pelo usuário
             foreach (var answer in answers)
             {
+                // 2. Verifica se a resposta existe no nosso mapa de pontuação
                 if (_scoreMap.TryGetValue(answer, out var scores))
                 {
+                    // 3. Soma os pontos para cada gênero associado àquela resposta
                     foreach (var score in scores)
                     {
                         if (genreScores.ContainsKey(score.Key))
@@ -69,20 +79,22 @@ namespace Cinematch.Api.Services
                 }
             }
 
-            // Encontra o gênero com a maior pontuação
+            // 4. Ordena os gêneros do maior para o menor e pega o vencedor
             var winner = genreScores.OrderByDescending(kv => kv.Value).FirstOrDefault();
 
             return new QuizResult
             {
-                Genre = winner.Key ?? "Ação", // Default para Ação se não houver pontuação
+                Genre = winner.Key ?? "Ação", // Fallback (Padrão) caso algo dê errado
                 Score = winner.Value
             };
         }
 
+        // Método simples que retorna os dados estáticos das perguntas para o Frontend
         public List<QuizQuestion> GetQuestions()
         {
             return new List<QuizQuestion>
             {
+                // ... (Definição das perguntas - serve como fonte de dados estática) ...
                 new QuizQuestion
                 {
                     Id = 1,
@@ -95,6 +107,7 @@ namespace Cinematch.Api.Services
                         { "D", "Curioso e imaginativo" }
                     }
                 },
+                // ... (Outras perguntas)
                 new QuizQuestion
                 {
                     Id = 2,
